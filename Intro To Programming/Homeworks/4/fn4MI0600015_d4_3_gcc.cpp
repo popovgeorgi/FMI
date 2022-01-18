@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 using namespace std;
 
@@ -108,6 +107,8 @@ int main() {
         }
     }
 
+    bool hasCombination = false;
+
     for (char* firstCombination : firstCombinations) {
         for (char* secondCombination : secondCombinations) {
             for (char* thirdCombination : thirdCombinations) {
@@ -135,8 +136,9 @@ int main() {
                                     continue;
                                 }
                                 else {
-                                    cout << firstDigit << '+' << secondDigit << '=' << thirdDigit;
-                                    return 0;
+                                    cout << firstDigit << '+' << secondDigit << '=' << thirdDigit << endl;
+                                    hasCombination = true;
+                                    //return 0;
                                 }
                             }
                         }
@@ -146,8 +148,10 @@ int main() {
                                     continue;
                                 }
                                 else {
-                                    cout << firstDigit << '-' << secondDigit << '=' << thirdDigit;
-                                    return 0;
+                                    cout << firstDigit << '-' << secondDigit << '=' << thirdDigit << endl;
+                                    hasCombination = true;
+
+                                    //return 0;
                                 }
                             }
                         }
@@ -157,8 +161,10 @@ int main() {
                                     continue;
                                 }
                                 else {
-                                    cout << firstDigit << '=' << secondDigit << '+' << thirdDigit;
-                                    return 0;
+                                    cout << firstDigit << '=' << secondDigit << '+' << thirdDigit << endl;
+                                    hasCombination = true;
+
+                                    //return 0;
                                 }
                             }
                         }
@@ -168,8 +174,10 @@ int main() {
                                     continue;
                                 }
                                 else {
-                                    cout << firstDigit << '=' << secondDigit << '-' << thirdDigit;
-                                    return 0;
+                                    cout << firstDigit << '=' << secondDigit << '-' << thirdDigit << endl;
+                                    hasCombination = true;
+
+                                    //return 0;
                                 }
                             }
                         }
@@ -179,13 +187,16 @@ int main() {
         }
     }
 
-    cout << "No";
+    if (!hasCombination) {
+        cout << "No";
+    }
 
     return 0;
 }
 
 bool isValidCombination(int firstDigit, int secondDigit, int thirdDigit, int firstDigitIndicator, int secondDigitIndicator, int thirdDigitIndicator, int firstSignIndicator, int secondSignIndicator) {
     int counter = 0;
+
     if (firstDigitIndicator != 0) {
         counter++;
     }
