@@ -2,10 +2,21 @@
 //
 
 #include <iostream>
+#include <fstream>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::ifstream inFile("input.txt");
+	if (!inFile.is_open())
+	{
+		return -1;
+	}
+
+	int a, b, c;
+	inFile >> a >> b >> c;
+
+	std::ofstream outFile("output.txt");
+	outFile << a + b + c - a * b * c << std::endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

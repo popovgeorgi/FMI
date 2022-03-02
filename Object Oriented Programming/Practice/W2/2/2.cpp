@@ -2,10 +2,25 @@
 //
 
 #include <iostream>
+#include <fstream>
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	std::ifstream inFile("input.txt");
+	if (!inFile.is_open())
+	{
+		return -1;
+	}
+
+	int size = 0;
+	char c;
+	while (!inFile.eof())
+	{
+		inFile.get(c);
+		size++;
+	}
+
+	std::cout << size;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
