@@ -1,0 +1,45 @@
+<student>
+	<name>Petur Popov<\name>
+	<fn>1<\fn>
+	<age>18<\age>
+	<gender>Female<\gender>
+	<email>petko@gmail.com<\email>
+	<grade>5<\grade>
+<\student>
+
+<student>
+	<name>Stefaniya Kyoseva<\name>
+	<fn>6<\fn>
+	<age>33<\age>
+	<gender>Female<\gender>
+	<email>stefi@gmail.com<\email>
+	<grade>5.2<\grade>
+<\student>
+
+<student>
+	<name>Ivan Petrov<\name>
+	<fn>3<\fn>
+	<age>33<\age>
+	<gender>Male<\gender>
+	<email>avan@abv.bg<\email>
+	<grade>3.5<\grade>
+<\student>
+
+<student>
+	<name>Ivan Petrov<\name>
+	<fn>4<\fn>
+	<age>33<\age>
+	<gender>Male<\gender>
+	<email>cvan@abv.bg<\email>
+	<grade>3.5<\grade>
+<\student>
+
+<student>
+	<name>Ivan Petrov<\name>
+	<fn>2<\fn>
+	<age>33<\age>
+	<gender>Male<\gender>
+	<email>ivan@abv.bg<\email>
+	<grade>3.5<\grade>
+<\student>
+
