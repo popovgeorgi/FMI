@@ -31,7 +31,7 @@
 	<age>33<\age>
 	<gender>Male<\gender>
 	<email>cvan@abv.bg<\email>
-	<grade>3.5<\grade>
+	<grade>2<\grade>
 <\student>
 
 <student>
@@ -42,4 +42,5 @@
 	<email>ivan@abv.bg<\email>
 	<grade>3.5<\grade>
 <\student>
+
 

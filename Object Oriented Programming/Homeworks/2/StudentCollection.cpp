@@ -170,9 +170,9 @@ void StudentCollection::sortByAge()
         {
             if (data[j].getAge() < data[i].getAge())
             {
-                int temp = data[i].getAge();
-                data[i].setAge(data[j].getAge());
-                data[j].setAge(temp);
+                Student temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
 
                 if (i != studentsCount - 1)
                 {
@@ -241,10 +241,9 @@ void StudentCollection::sortByFn()
         {
             if (data[j].getFn() < data[i].getFn())
             {
-                int temp = data[i].getFn();
-                data[i].setFn(data[j].getFn());
-                data[j].setFn(temp);
-
+                Student temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
 
                 if (i != studentsCount - 1)
                 {
@@ -264,9 +263,9 @@ void StudentCollection::sortByGrade()
         {
             if (data[j].getGrade() < data[i].getGrade())
             {
-                double temp = data[i].getGrade();
-                data[i].setGrade(data[j].getGrade());
-                data[j].setGrade(temp);
+                Student temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
 
                 if (i != studentsCount - 1)
                 {
