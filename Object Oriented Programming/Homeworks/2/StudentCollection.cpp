@@ -11,9 +11,11 @@ StudentCollection::StudentCollection(char* fileName)
         fstream file(fileName);
         if (!file.is_open())
         {
+            cout << "File could not be loaded!" << endl;
             return;
         }
 
+        isFileLoaded = true;
         cout << SUCCESSFULLY_LOADED_FILE_MESSAGE << endl;
         studentsCount = getStudentsCount(file);
         data = new Student[studentsCount];

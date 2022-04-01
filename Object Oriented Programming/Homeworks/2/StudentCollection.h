@@ -8,6 +8,7 @@ struct StudentCollection
 {
     Student* data;
     size_t studentsCount;
+    bool isFileLoaded = false;
 
     StudentCollection(char* fileName);
 

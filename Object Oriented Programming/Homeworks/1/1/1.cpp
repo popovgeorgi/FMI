@@ -1,273 +1,110 @@
 #include <iostream>
 #include <fstream>
+#include "Helpers.h"
+#include "MyFile.h"
 
 using namespace std;
 
-int getBytesOfFile(char* fileName)
-{
-	//optimize
-	ifstream inFile(fileName, ios::binary);
-	if (!inFile)
-	{
-		return -1;
-	}
+const char* VIEW_COMMAND = "view";
+const char* REMOVE_COMMAND = "remove";
+const char* CHANGE_COMMAND = "change";
+const char* ADD_COMMAND = "add";
+const char* SAVE_COMMAND = "save";
 
-	size_t counter = 0;
-	while (true)
-	{
-		inFile.get();
-		if (inFile.eof())
-		{
-			break;
-		}
-		counter++;
-	}
-
-	return counter;
-}
-
-char getCharForInt(int n)
-{
-	if (n >= 0 && n <= 9)
-	{
-		return n + '0';
-	}
-	else
-	{
-		if (n == 10)
-		{
-			return 'A';
-		}
-		else if (n == 11)
-		{
-			return 'B';
-		}
-		else if (n == 12)
-		{
-			return 'C';
-		}
-		else if (n == 13)
-		{
-			return 'D';
-		}
-		else if (n == 14)
-		{
-			return 'E';
-		}
-		else if (n == 15)
-		{
-			return 'F';
-		}
-	}
-}
-
-char* getHexFromDecimal(int n)
-{
-	char* hex = new char[3];
-
-	int remainer = n / 16;
-	if (remainer == 0)
-	{
-		hex[0] = '0';
-		remainer = n % 16;
-	}
-	else
-	{
-		hex[0] = getCharForInt(remainer);
-		remainer = n - 16 * remainer;
-	}
-
-	if (remainer >= 0 || remainer <= 9)
-	{
-		hex[1] = getCharForInt(remainer);
-	}
-	else
-	{
-		hex[1] = getCharForInt(remainer);
-	}
-	hex[2] = '\0';
-
-	return hex;
-}
-
-
-
-void printBytesFromFile(char* fileName)
-	{
-		ifstream inFile(fileName, ios::binary);
-		if (!inFile)
-		{
-			return;
-		}
-
-		char byte;
-		while (true)
-		{
-			inFile.get(byte);
-			if (inFile.eof())
-			{
-				return;
-			}
-
-			cout << getHexFromDecimal(int(byte)) << " ";
-		}
-	}
-
-void printTextFromFile(char* fileName)
-	{
-		ifstream inFile(fileName, ios::binary);
-		if (!inFile)
-		{
-			return;
-		}
-
-		char byte;
-		while (true)
-		{
-			inFile.get(byte);
-			if (inFile.eof())
-			{
-				return;
-			}
-
-			if ((byte >= 65 && byte <= 90) || (byte >= 97 && byte <= 122))
-			{
-				cout << byte;
-			}
-			else
-			{
-				cout << '.';
-			}
-		}
-	}
-
-struct File
-{
-	int* bytes;
-	int bytesCount;
-	char* initialFileName;
-
-	File(int bytesCount, char* fileName)
-	{
-		initialFileName = fileName;
-		bytes = new int[bytesCount];
-		this->bytesCount = bytesCount;
-		setBytes(fileName, bytesCount);
-	}
-
-	void replaceByte(int position, int newValue)
-	{
-		bytes[position] = newValue;
-	}
-
-	void removeLastByte()
-	{
-		bytesCount--;
-		int* newBytes = new int[bytesCount];
-		for (size_t i = 0; i < bytesCount; i++)
-		{
-			newBytes[i] = bytes[i];
-		}
-		delete[] bytes;
-		bytes = newBytes;
-	}
-
-	void addByteAtTheEnd(int value)
-	{
-		//validate value to be a 0 - 255
-		bytesCount++;
-		int* newBytes = new int[bytesCount];
-		for (size_t i = 0; i < bytesCount; i++)
-		{
-			newBytes[i] = bytes[i];
-		}
-		newBytes[bytesCount - 1] = value;
-		delete[] bytes;
-		bytes = newBytes;
-	}
-
-	void save()
-	{
-		ofstream outFile(initialFileName, ios::trunc | ios::binary);
-		if (!outFile)
-		{
-			return;
-		}
-
-		for (size_t i = 0; i < bytesCount; i++)
-		{
-			int byte = bytes[i];
-			outFile.write((char*)&byte, 1);
-		}
-	}
-
-	void saveAs(char* fileName)
-	{
-		ofstream outFile(fileName, ios::binary);
-		if (!outFile)
-		{
-			return;
-		}
-
-		for (size_t i = 0; i < bytesCount; i++)
-		{
-			int byte = bytes[i];
-			outFile.write((char*)&byte, 1);
-		}
-	}
-
-	void printBytesAsHex()
-	{
-		for (size_t i = 0; i < bytesCount; i++)
-		{
-			int byte = bytes[i];
-			cout << getHexFromDecimal(byte) << " ";
-		}
-	}
-
-	void printBytesAsSymbols()
-	{
-		for (size_t i = 0; i < bytesCount; i++)
-		{
-			int byte = bytes[i];
-			if ((byte >= 65 && byte <= 90) || (byte >= 97 && byte <= 122))
-			{
-				cout << (char)byte;
-			}
-			else
-			{
-				cout << ".";
-			}
-		}
-	}
-
-private:
-	void setBytes(char* fileName, int fileSize)
-	{
-		ifstream file(fileName, ios::binary);
-		if (!file)
-		{
-			return;
-		}
-
-		char byte;
-		for (size_t i = 0; i < fileSize; i++)
-		{
-			file.get(byte);
-			this->bytes[i] = (int)byte;
-		}
-
-		file.close();
-	}
-};
+const char* INVALID_COMMAND_MESSAGE = "Invalid command! Please enter a new one!";
+const char* SUCCESSFUL_OPERATION_MESSAGE = "Operation successfully executed!";
+const char* INVALID_OPERATION_MESSAGE = "Operation is not successful!";
+const char* SUCCESSFUL_FILE_SAVING = "File successfully saved!";
 
 int main()
 {
+	cout << "Enter a file path:" << endl;
 	char input[50];
 	cin.getline(input, 50);
-
 	int bytesCount = getBytesOfFile(input);
-	File myFile(bytesCount, input);
-	myFile.addByteAtTheEnd(23);
-	myFile.printBytesAsHex();
+	if (bytesCount == -1)
+	{
+		cout << "File could not be loaded!" << endl;
+		return -1;
+	}
+	MyFile myFile(bytesCount, input);
+
+	char command[20];
+	while (true)
+	{
+		cin >> command;
+		if (areEqual(command, VIEW_COMMAND))
+		{
+			myFile.printBytesAsHex();
+			cout << "-----------------------" << endl;
+			myFile.printBytesAsSymbols();
+		}
+		else if (areEqual(command, REMOVE_COMMAND))
+		{
+			myFile.removeLastByte();
+			cout << SUCCESSFUL_OPERATION_MESSAGE << endl;
+		}
+		else if (areEqual(command, CHANGE_COMMAND))
+		{
+			char index[5];
+			cin >> index;
+			char value[10];
+			cin >> value;
+
+			int indexAsInt = getIntFromString(index);
+			int valueAsInt = getIntFromString(value);
+
+			if (myFile.replaceByte(indexAsInt, valueAsInt))
+			{
+				cout << SUCCESSFUL_OPERATION_MESSAGE << endl;
+			}
+			else
+			{
+				cout << INVALID_OPERATION_MESSAGE << endl;
+			}
+		}
+		else if (areEqual(command, ADD_COMMAND))
+		{
+			char value[10];
+			cin >> value;
+
+			int valueAsInt = getIntFromString(value);
+
+			if (myFile.addByteAtTheEnd(valueAsInt))
+			{
+				cout << SUCCESSFUL_OPERATION_MESSAGE << endl;
+			}
+			else
+			{
+				cout << INVALID_OPERATION_MESSAGE << endl;
+			}
+		}
+		else if (areEqual(command, SAVE_COMMAND))
+		{
+			char symbol[1];
+			cin.read(symbol, 1);
+			if (symbol[0] != '\n')
+			{
+				char other[3];
+				cin >> other;
+				char filePath[20];
+				cin >> filePath;
+				myFile.saveAs(filePath);
+			}
+			else
+			{
+				myFile.save();
+			}
+
+			cout << SUCCESSFUL_FILE_SAVING << endl;
+			break;
+		}
+		else
+		{
+			cout << INVALID_COMMAND_MESSAGE << endl;
+			continue;
+		}
+	}
+
+	return 0;
 }

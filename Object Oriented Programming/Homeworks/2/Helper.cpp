@@ -105,7 +105,7 @@ bool containsMonkey(const char* str)
     return false;
 }
 
-float getIntFromString(const char* str)
+int getIntFromString(const char* str)
 {
     int res = 0;
     const int len = strlength(str);

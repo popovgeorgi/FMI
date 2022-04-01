@@ -15,9 +15,14 @@ const char* INVALID_COMMAND_MESSAGE = "Invalid command! Please enter a new one!"
 
 int main()
 {
+    cout << "Enter a file path:" << endl;
     char fileName[100];
     cin.getline(fileName, 100);
     StudentCollection library(fileName);
+    if (!library.isFileLoaded)
+    {
+        return -1;
+    }
 
     char input[100];
     while (true)
@@ -70,4 +75,6 @@ int main()
             continue;
         }
     }
+
+    return 0;
 }

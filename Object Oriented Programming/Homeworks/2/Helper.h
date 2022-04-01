@@ -12,7 +12,7 @@ int power(int num, int deg);
 
 bool containsMonkey(const char* str);
 
-float getIntFromString(const char* str);
+int getIntFromString(const char* str);
 
 void substring(const char* source, char* dest, int length, int index);
 
