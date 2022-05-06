@@ -42,8 +42,13 @@ int main()
 			cout << ">" << "Enter password: ";
 			cin.getline(password, 30);
 
-			User& user = library.login(username, password);
-			cout << "Welcome, " << user.getUsername() << "!" << endl;
+			User* user = library.login(username, password);
+			if (user == nullptr)
+			{
+				cout << "Incorrect data!";
+				continue;
+			}
+			cout << "Welcome, " << user->getUsername() << "!" << endl;
 
 			while (true)
 			{
@@ -51,15 +56,27 @@ int main()
 				cin >> command;
 				if (command == "view")
 				{
-
+					const myVector<Book> allBooks = library.getAllBooks();
+					int bookCount = allBooks.getSize();
+					for (size_t i = 0; i < bookCount; i++)
+					{
+						cout << allBooks[i].getId() << ". " << allBooks[i].getTitle() << " by " << allBooks[i].getAuthor() << '\n';
+					}
 				}
 				else if (command == "read")
 				{
-
+					char title[100];
+					cin.getline(title, 100);
+					int id = library.findIdByName(title);
+					user->read(id);
 				}
 				else if (command == "rate")
 				{
-
+					char title[100];
+					double rating;
+					cin >> title;
+					cin >> rating;
+					library.rate(user->getUsername(), title, rating);
 				}
 				else if (command == "comment")
 				{
@@ -67,7 +84,9 @@ int main()
 				}
 				else if (command == "rates")
 				{
-
+					char title[100];
+					cin.getline(title, 100);
+					myVector<Rate> rates = library.getRatesForBook(title);
 				}
 				else if (command == "write")
 				{

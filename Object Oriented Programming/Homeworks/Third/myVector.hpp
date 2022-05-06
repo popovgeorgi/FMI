@@ -12,7 +12,8 @@ public:
 	myVector();
 
 	void insert(T element);
-	T operator[](size_t index);
+	int getSize() const;
+	T operator[](size_t index) const;
 };
 
 template <typename T>
@@ -21,6 +22,12 @@ myVector<T>::myVector()
 	size = 4;
 	index = 0;
 	data = new T[size];
+}
+
+template <typename T>
+int myVector<T>::getSize() const
+{
+	return size;
 }
 
 template <typename T>
@@ -35,7 +42,7 @@ void myVector<T>::insert(T element)
 }
 
 template <typename T>
-T myVector<T>::operator[](size_t index)
+T myVector<T>::operator[](size_t index) const
 {
 	return data[index];
 }

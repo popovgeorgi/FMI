@@ -1,6 +1,12 @@
 #pragma once
 class Comment
 {
-	const char* username[50];
-	char* content[200];
+	char username[50];
+	char content[200];
+
+public:
+	Comment();
+
+	bool setCommentator(const char* username);
+	bool setContent(char* content);
 };

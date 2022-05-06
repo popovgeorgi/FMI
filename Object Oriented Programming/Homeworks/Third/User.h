@@ -6,8 +6,8 @@ class User
 {
 	char username[25];
 	char password[30];
-	myVector<int> read;
-	myVector<int> written;
+	myVector<int> readBooks;
+	myVector<int> writtenBooks;
 
 public:
 	User();
@@ -18,8 +18,8 @@ public:
 	bool setPassword(const char* password);
 
 	const char* getUsername() const;
-	bool read(const char* title);
-	bool rate(const char* title);
+	const char* getPassword() const;
+	bool read(int id);
 	void write(const char* title, int pageCount);
 	void addPage(const char* content);
 };

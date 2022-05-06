@@ -1,6 +1,7 @@
 #include <fstream>
 #include "Page.h"
 #include "Kindle.h"
+#include "Rate.h"
 
 using namespace std;
 
@@ -8,15 +9,6 @@ Kindle::Kindle()
 {
 	loadUsers();
 	loadBooks();
-	//load books
-	ifstream inFile("Users.txt");
-	if (!inFile)
-	{
-		// what to do here
-	}
-
-	char input[50];
-
 }
 
 bool Kindle::registrate(const char* username, const char* password)
@@ -32,15 +24,80 @@ bool Kindle::registrate(const char* username, const char* password)
 	outFile << '\n';
 
 	outFile.close();
+
+	return true;
 }
 
-User& Kindle::login(const char* username, const char* password)
+const myVector<Rate>& Kindle::getRatesForBook(const char* title) const
 {
+	int size = library.getSize();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (library[i].getTitle() == title)
+		{
+			return library[i].getRatings();
+		}
+	}
 }
 
-const Book* Kindle::getAllBooks() const
+void Kindle::rate(const char* username, const char* title, double rating)
 {
+	int size = library.getSize();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (library[i].getTitle() == title)
+		{
+			library[i].setRating(username, rating);
+		}
+	}
+}
 
+User* Kindle::login(const char* username, const char* password)
+{
+	int usersCount = users.getSize();
+	for (size_t i = 0; i < usersCount; i++)
+	{
+		if (strcmp(username, users[i].getUsername()) == 0 && strcmp(password, users[i].getPassword()) == 0)
+		{
+			auto temp = users[i];
+			return &temp;
+		}
+	}
+
+	return nullptr;
+}
+
+int Kindle::findIdByName(const char* name) const
+{
+	int size = titleToId.getSize();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (strcmp(titleToId[i].key, name) == 0)
+		{
+			return titleToId[i].value;
+		}
+	}
+
+	return -1;
+}
+
+bool Kindle::userExists(const char* username, const char* password)
+{
+	int usersCount = users.getSize();
+	for (size_t i = 0; i < usersCount; i++)
+	{
+		if (strcmp(username, users[i].getUsername()) == 0 && strcmp(password, users[i].getPassword()) == 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+const myVector<Book>& Kindle::getAllBooks() const
+{
+	return library;
 }
 
 void Kindle::loadUsers()
@@ -102,6 +159,7 @@ void Kindle::loadBooks()
 	}
 
 	char input[50];
+	int bookIndex = 1;
 	while (true)
 	{
 		inFile.getline(input, 50);
@@ -112,13 +170,16 @@ void Kindle::loadBooks()
 
 		Book book;
 		book.setTitle(input);
+		KeyValuePair<int, const char*> idTitle(bookIndex, input);
+		KeyValuePair<const char*, int> titleId(input, bookIndex);
+		idToTitle.insert(idTitle);
+		titleToId.insert(titleId);
 		inFile.getline(input, 50);
 		book.setAuthor(input);
 		inFile.getline(input, 50);
-		book.setRating(atoi(input));
 
 		char content[500];
-		int index = 1;
+		int pageIndex = 1;
 		while (true)
 		{
 			inFile.getline(content, 500);
@@ -128,13 +189,40 @@ void Kindle::loadBooks()
 			}
 
 			Page page;
-			page.setId(index);
+			page.setId(pageIndex);
 			page.setContent(content);
 
 			book.addPage(page);
-			index++;
+			pageIndex++;
+		}
+		char input[200];
+		while (true)
+		{
+			inFile.getline(input, 50);
+			if (strlen(content) == 0)
+			{
+				break;
+			}
+
+			Comment comment;
+			comment.setCommentator(input);
+			inFile.getline(input, 200);
+			comment.setContent(input);
+		}
+		while (true)
+		{
+			inFile.getline(input, 100);
+			if (strlen(content) == 0)
+			{
+				break;
+			}
+
+			Rate rate;
+			rate.setRater(input);
+			inFile.getline(input, 20);
+			rate.setRating(atoi(input));
 		}
 
-		// get comments;
+		bookIndex++;
 	}
 }
