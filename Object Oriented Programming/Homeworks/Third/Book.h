@@ -4,15 +4,16 @@
 #include "Comment.h"
 #include "Rate.h"
 
+
 class Book
 {
 	// read about utilizing the least amount of memory
 	int id;
 	char title[40];
 	char author[30];
-	myVector<Page> pages;
-	myVector<Comment> comments;
-	myVector<Rate> rates;
+	MyVector<Page> pages;
+	MyVector<Comment> comments;
+	MyVector<Rate> rates;
 
 public:
 	int getId() const;
@@ -23,6 +24,14 @@ public:
 	bool setTitle(const char* title);
 	bool setAuthor(const char* author);
 	bool setRating(const char* username, double rating);
+	bool setId(int id);
+	bool addComment(const char* username, const char* comment);
 
-	const myVector<Rate>& getRatings() const;
+	int getPagesCount() const;
+	int getCommentsCount() const;
+	int getRatesCount() const;
+
+	const MyVector<Page>& getPages() const;
+	const MyVector<Comment>& getComments() const;
+	const MyVector<Rate>& getRatings() const;
 };

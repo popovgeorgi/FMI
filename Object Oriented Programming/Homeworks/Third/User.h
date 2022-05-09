@@ -6,11 +6,12 @@ class User
 {
 	char username[25];
 	char password[30];
-	myVector<int> readBooks;
-	myVector<int> writtenBooks;
+	MyVector<int> readBooks;
+	MyVector<int> writtenBooks;
 
 public:
 	User();
+	User(const char* username, const char* password);
 
 	void addToReadCollection(int id);
 	void addToWroteCollection(int id);
@@ -19,8 +20,13 @@ public:
 
 	const char* getUsername() const;
 	const char* getPassword() const;
+	int getReadBooksCount() const;
+	int getWrittenBooksCount() const;
 	bool read(int id);
-	void write(const char* title, int pageCount);
-	void addPage(const char* content);
+	bool isAuthor(int id) const;
+	bool hasRead(int id) const;
+
+	const MyVector<int>& getReadBooks() const;
+	const MyVector<int>& getWrittenBooks() const;
 };
 

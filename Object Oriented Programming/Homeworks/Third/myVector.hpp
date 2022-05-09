@@ -1,6 +1,8 @@
 #pragma once
+#include <iostream>
+
 template <typename T>
-class myVector
+class MyVector
 {
 	T* data;
 	int size;
@@ -9,15 +11,15 @@ class myVector
 	void resize();
 
 public:
-	myVector();
+	MyVector();
 
 	void insert(T element);
 	int getSize() const;
-	T operator[](size_t index) const;
+	T& operator[](size_t index) const;
 };
 
 template <typename T>
-myVector<T>::myVector()
+MyVector<T>::MyVector()
 {
 	size = 4;
 	index = 0;
@@ -25,13 +27,13 @@ myVector<T>::myVector()
 }
 
 template <typename T>
-int myVector<T>::getSize() const
+int MyVector<T>::getSize() const
 {
-	return size;
+	return index;
 }
 
 template <typename T>
-void myVector<T>::insert(T element)
+void MyVector<T>::insert(T element)
 {
 	if (index + 1 == size)
 	{
@@ -39,16 +41,17 @@ void myVector<T>::insert(T element)
 	}
 
 	data[index] = element;
+	index++;
 }
 
 template <typename T>
-T myVector<T>::operator[](size_t index) const
+T& MyVector<T>::operator[](size_t index) const
 {
 	return data[index];
 }
 
 template <typename T>
-void myVector<T>::resize()
+void MyVector<T>::resize()
 {
 	T* newData = new T[size * 2];
 

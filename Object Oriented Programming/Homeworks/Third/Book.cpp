@@ -39,6 +39,15 @@ bool Book::setAuthor(const char* author)
 	return true;
 }
 
+bool Book::addComment(const char* username, const char* comment)
+{
+	//validate
+	Comment newComment(username, comment);
+	comments.insert(newComment);
+
+	return true;
+}
+
 bool Book::setRating(const char* username, double rating)
 {
 	//validate
@@ -48,7 +57,40 @@ bool Book::setRating(const char* username, double rating)
 	return true;
 }
 
-const myVector<Rate>& Book::getRatings() const
+const MyVector<Rate>& Book::getRatings() const
 {
 	return rates;
+}
+
+bool Book::setId(int id)
+{
+	//validate
+	this->id = id;
+
+	return true;
+}
+
+const MyVector<Page>& Book::getPages() const
+{
+	return pages;
+}
+
+int Book::getPagesCount() const
+{
+	return pages.getSize();
+}
+
+int Book::getCommentsCount() const
+{
+	return comments.getSize();
+}
+
+int Book::getRatesCount() const
+{
+	return rates.getSize();
+}
+
+const MyVector<Comment>& Book::getComments() const
+{
+	return comments;
 }

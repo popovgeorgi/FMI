@@ -5,8 +5,12 @@ class Comment
 	char content[200];
 
 public:
+	Comment(const char* username, const char* content);
 	Comment();
 
 	bool setCommentator(const char* username);
 	bool setContent(char* content);
+
+	const char* getCommentator() const;
+	const  char* getContent() const;
 };

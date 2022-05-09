@@ -10,4 +10,7 @@ public:
 
 	bool setRater(const char* username);
 	bool setRating(double rating);
+
+	const char* getRater() const;
+	double getRating() const;
 };

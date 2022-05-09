@@ -26,3 +26,13 @@ bool Rate::setRating(double rating)
 
 	return true;
 }
+
+const char* Rate::getRater() const
+{
+	return username;
+}
+
+double Rate::getRating() const
+{
+	return rating;
+}

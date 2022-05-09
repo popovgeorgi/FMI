@@ -6,10 +6,9 @@
 
 class Kindle
 {
-	myVector<KeyValuePair<int, const char*>> idToTitle;
-	myVector<KeyValuePair<const char*, int>> titleToId;
-	myVector<User> users;
-	myVector<Book> library;
+	MyVector<KeyValuePair<int>> titleToId;
+	MyVector<User> users;
+	MyVector<Book> library;
 
 	void loadUsers();
 	void loadBooks();
@@ -20,8 +19,15 @@ public:
 
 	bool registrate(const char* username, const char* password);
 	User* login(const char* username, const char* password);
-	const myVector<Book>& getAllBooks() const;
+	const MyVector<Book>& getAllBooks() const;
 	int findIdByName(const char* name) const;
 	void rate(const char* username, const char* title, double rating);
-	const myVector<Rate>& getRatesForBook(const char* title) const;
+	const MyVector<Rate>* getRatesForBook(const char* title) const;
+	const MyVector<Comment>* getCommentsForBook(const char* title) const;
+	void addBook(Book& book);
+	void comment(const char* username, const char* title, const char* comment);
+	Book& getBookByTitle(const char* title);
+
+	void saveBooks() const;
+	void saveUsers() const;
 };

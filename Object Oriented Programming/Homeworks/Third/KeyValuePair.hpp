@@ -1,25 +1,28 @@
 #pragma once
-template <typename TKey, typename TValue>
+#pragma warning(disable : 4996)
+
+template <typename TValue>
 struct KeyValuePair
 {
-	TKey key;
+	char* key;
 	TValue value;
 
 public:
 	KeyValuePair();
-	KeyValuePair(TKey key, TValue value);
+	KeyValuePair(const char* key, TValue value);
 };
 
-template <typename TKey, typename TValue>
-KeyValuePair<TKey, TValue>::KeyValuePair()
+template <typename TValue>
+KeyValuePair<TValue>::KeyValuePair()
 {
 
 }
 
-template <typename TKey, typename TValue>
-KeyValuePair<TKey, TValue>::KeyValuePair(TKey key, TValue value)
+template <typename TValue>
+KeyValuePair<TValue>::KeyValuePair(const char* key, TValue value)
 {
-	this->key = key;
+	this->key = new char[50];
+	strcpy(this->key, key);
 	this->value = value;
 }
 
