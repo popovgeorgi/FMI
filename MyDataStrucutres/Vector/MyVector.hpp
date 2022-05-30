@@ -9,7 +9,7 @@ class MyVector
 	void resize();
 
 public:
-	MyVector(int size = 0);
+	MyVector(int size = 4);
 	~MyVector();
 
 	void insert(T element);
@@ -33,7 +33,7 @@ void MyVector<T>::insert(T element)
 		resize();
 	}
 
-	data[index] = element;
+	data[index++] = element;
 }
 
 template <typename T>
