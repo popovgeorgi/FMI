@@ -1,6 +1,6 @@
 #pragma once
 template <typename T>
-class myVector
+class MyVector
 {
 	T* data;
 	int size;
@@ -9,22 +9,24 @@ class myVector
 	void resize();
 
 public:
-	myVector();
+	MyVector(int size = 0);
+	~MyVector();
 
 	void insert(T element);
-	T operator[](size_t index);
+	T& operator[](size_t index); // for changing
+	const T operator[](size_t index) const; // for reading
 };
 
 template <typename T>
-myVector<T>::myVector()
+MyVector<T>::MyVector(int size)
 {
-	size = 4;
+	this->size = size;
 	index = 0;
 	data = new T[size];
 }
 
 template <typename T>
-void myVector<T>::insert(T element)
+void MyVector<T>::insert(T element)
 {
 	if (index + 1 == size)
 	{
@@ -35,13 +37,19 @@ void myVector<T>::insert(T element)
 }
 
 template <typename T>
-T myVector<T>::operator[](size_t index)
+T& MyVector<T>::operator[](size_t index)
 {
 	return data[index];
 }
 
 template <typename T>
-void myVector<T>::resize()
+const T MyVector<T>::operator[](size_t index) const
+{
+	return data[index];
+}
+
+template <typename T>
+void MyVector<T>::resize()
 {
 	T* newData = new T[size * 2];
 
@@ -52,4 +60,10 @@ void myVector<T>::resize()
 
 	delete[] data;
 	size *= 2;
+}
+
+template <typename T>
+MyVector<T>::~MyVector()
+{
+	delete[] data;
 }
